@@ -97,16 +97,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item ">
-                    <a class="nav-link mr-2" href="./dashboard.php">Dashboard</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link mr-2" href="">Masterlist</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link mr-2" href="./home.php">Home</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/home.php/">Users</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link mr-2" href="./history.php">History</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
