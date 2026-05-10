@@ -95,7 +95,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">My Account</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost/login-system-with-login-history">Log Out</a></li>
+                        <li><a class="dropdown-item" href="http://localhost/barangay-population-monitoring-system/index.php">Log Out</a></li>
                     </ul>
                 </li>
             </ul>

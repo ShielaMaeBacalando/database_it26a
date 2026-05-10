@@ -33,7 +33,7 @@ try {
         echo "
         <script>
             alert('Registered Successfully');
-            window.location.href = 'http://localhost/barangay-population-monitoring-system/';
+            window.location.href = 'http://localhost/barangay-population-monitoring-system/home.php';
         </script>
         ";
 
@@ -42,7 +42,7 @@ try {
         echo "
         <script>
             alert('User Already Exist');
-            window.location.href = 'http://localhost/barangay-population-monitoring-system/';
+            window.location.href = 'http://localhost/barangay-population-monitoring-system/home.php';
         </script>
         ";
     }

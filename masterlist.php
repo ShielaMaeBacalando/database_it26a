@@ -111,7 +111,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="./index.php">Logout</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/index.php">Logout</a>
                 </li>
             </ul>
         </div>

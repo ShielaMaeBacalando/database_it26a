@@ -71,7 +71,7 @@
 <body>
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-5" href="home.php">Login System with Loging History</a>
+        <a class="navbar-brand ml-5" href="home.php">Barangay Population Monitoring System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
