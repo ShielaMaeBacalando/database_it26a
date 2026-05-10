@@ -102,6 +102,12 @@
                 <li class="nav-item active">
                     <a class="nav-link mr-2" href="">Masterlist</a>
                 </li>
+                <li class="nav-item active">
+                    <a class="nav-link mr-2" href="./home.php">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link mr-2" href="./history.php">History</a>
+                </li>
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
