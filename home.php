@@ -78,10 +78,10 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Users <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Users <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users <span class="sr-only">(current)</span></a>
