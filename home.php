@@ -78,17 +78,23 @@
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost/login-system-with-login-history/home.php/">Users <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Users <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Users <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/login-system-with-login-history/history.php/">Login History</a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">Login History</a>
                 </li>
             </ul>
             <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px; margin-left: 70%;">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">My Account</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost/login-system-with-login-history">Log Out</a></li>
+                        <li><a class="dropdown-item" href="http://localhost/barangay-population-monitoring-system/index.php">Log Out</a></li>
                     </ul>
                 </li>
             </ul>

@@ -118,7 +118,7 @@ foreach ($residentCountResult as $row) {
                     <a class="nav-link mr-2" href="./masterlist.php">Masterlist</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="./home.php">Home</a>
+                    <a class="nav-link mr-2" href="home.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mr-2" href="./history.php">History</a>
@@ -126,7 +126,7 @@ foreach ($residentCountResult as $row) {
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="./new.php">Logout</a>
+                    <a class="nav-link mr-2" href="./index.php">Logout</a>
                 </li>
             </ul>
         </div>
