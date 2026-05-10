@@ -1,5 +1,5 @@
 <?php 
-include ('../conn/conn.php');
+include ('http://localhost/barangay-population-monitoring-system/conn/conn.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

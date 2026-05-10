@@ -1,5 +1,5 @@
 <?php
-include ('../conn/conn.php');
+include ('http://localhost/barangay-population-monitoring-system/conn/conn.php');
 
 $firstName = $_POST['first_name'];
 $lastName = $_POST['last_name'];
