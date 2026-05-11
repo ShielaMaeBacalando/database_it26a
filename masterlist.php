@@ -88,7 +88,7 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand ml-4">Barangay Population Monitoring System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -96,16 +96,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
-                <li class="nav-item ">
+                <li class="nav-item">
                     <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard</a>
                 </li>
+                <!-- I-remove ang active sa uban, ibutang ra diri sa Masterlist -->
                 <li class="nav-item active">
-                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/home.php/">Users</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
                 </li>
             </ul>
@@ -116,7 +117,6 @@
             </ul>
         </div>
     </nav>
-    
     <div class="main">
 
         <div class="masterlist-container">
