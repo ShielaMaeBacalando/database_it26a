@@ -1,56 +1,34 @@
 <?php
-include ('http://localhost/barangay-population-monitoring-system/conn/conn.php');
+include('../conn/conn.php');
 
-$updateUserID = $_POST['tbl_user_id'];
-$updateFirstName = $_POST['first_name'];
-$updateLastName = $_POST['last_name'];
-$updateContactNumber = $_POST['contact_number'];
-$updateEmail = $_POST['email'];
-$updateUsername = $_POST['username'];
-$updatePassword = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userID        = $_POST['tbl_user_id'];
+    $firstName     = $_POST['first_name'];
+    $lastName      = $_POST['last_name'];
+    $contactNumber = $_POST['contact_number'];
+    $email         = $_POST['email'];
+    $username      = $_POST['username'];
+    $password      = $_POST['password'];
 
-try {
-    $stmt = $conn->prepare("SELECT `first_name`, `last_name` FROM `tbl_user` WHERE `first_name` = :first_name AND `last_name` = :last_name");
-    $stmt->execute([
-        'first_name' => $updateFirstName,
-        'last_name'=> $updateLastName
-    ]);
-    $nameExist = $stmt->fetch(PDO::FETCH_ASSOC);
+    $stmt = $conn->prepare("UPDATE tbl_user SET 
+        first_name     = :first_name, 
+        last_name      = :last_name, 
+        contact_number = :contact_number, 
+        email          = :email, 
+        username       = :username, 
+        password       = :password 
+        WHERE tbl_user_id = :id");
 
-    if (empty($nameExist)) {
-        $conn->beginTransaction();
-
-        $updateStmt = $conn->prepare("UPDATE `tbl_user` SET `first_name` = :first_name, `last_name` = :last_name, `contact_number` = :contact_number, `email` = :email, `username` = :username, `password` = :password WHERE `tbl_user_id` = :userID");
-        $updateStmt->bindParam(':first_name', $updateFirstName, PDO::PARAM_STR);
-        $updateStmt->bindParam(':last_name', $updateLastName, PDO::PARAM_STR);
-        $updateStmt->bindParam(':contact_number', $updateContactNumber, PDO::PARAM_INT);
-        $updateStmt->bindParam(':email', $updateEmail, PDO::PARAM_STR);
-        $updateStmt->bindParam(':username', $updateUsername, PDO::PARAM_STR);
-        $updateStmt->bindParam(':password', $updatePassword, PDO::PARAM_STR);
-        $updateStmt->bindParam(':userID', $updateUserID, PDO::PARAM_INT);
-        $updateStmt->execute();
-
-        echo "
-        <script>
-            alert('Updated Successfully');
-            window.location.href = 'http://localhost/barangay-population-monitoring-system/home.php';
-        </script>
-        ";
-
-        $conn->commit();
-    } else {
-        echo "
-        <script>
-            alert('User Already Exist');
-            window.location.href = 'http://localhost/barangay-population-monitoring-system/home.php';
-        </script>
-        ";
-    }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    $stmt->bindParam(':first_name',     $firstName);
+    $stmt->bindParam(':last_name',      $lastName);
+    $stmt->bindParam(':contact_number', $contactNumber);
+    $stmt->bindParam(':email',          $email);
+    $stmt->bindParam(':username',       $username);
+    $stmt->bindParam(':password',       $password);
+    $stmt->bindParam(':id',             $userID, PDO::PARAM_INT);
+    $stmt->execute();
 }
 
-
-
+header("Location: ../home.php");
+exit();
 ?>
-
