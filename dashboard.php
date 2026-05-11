@@ -118,7 +118,7 @@ foreach ($residentCountResult as $row) {
                     <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/home.php/">Home</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/home.php/">Users</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
