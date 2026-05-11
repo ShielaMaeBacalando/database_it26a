@@ -70,38 +70,39 @@
 </head>
 <body>
     
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-5" href="dashboard.php">Barangay Population Monitoring System</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav">
-                <li class="nav-item ">
-                    <li class="nav-item ">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px; margin-left: 70%;">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">My Account</a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="http://localhost/barangay-population-monitoring-system/index.php">Log Out</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-        </div>
-    </nav>
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand ml-5" href="dashboard.php">Barangay Population Monitoring System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav">
+            <!-- Gitangtang ang duplicate <li> dinhi -->
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">History <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <!-- FIX: Gi-usab gikan mr-auto + margin-left:70% padulong ml-auto -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">My Account</a>
+                <!-- Added dropdown-menu-right para dili mogawas sa screen -->
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a class="dropdown-item" href="http://localhost/barangay-population-monitoring-system/index.php">Log Out</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
 
     <div class="main">
         <div class="container">
