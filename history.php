@@ -88,7 +88,7 @@
                     <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">Login History</a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
                 </li>
             </ul>
             <ul class="navbar-nav mr-auto my-2 my-lg-0 navbar-nav-scroll" style="max-height: 100px; margin-left: 70%;">

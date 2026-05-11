@@ -147,7 +147,7 @@
                                     <label for="address">Address:</label>
                                     <select class="form-control" name="address" id="address">
                                         <option>-select-</option>
-                                        <option value="Purkok 1">Purok 1</option>
+                                        <option value="Purok 1">Purok 1</option>
                                         <option value="Purok 2">Purok 2</option>
                                         <option value="Purok 3">Purok 3</option>
                                         <option value="Purok 4">Purok 4</option>

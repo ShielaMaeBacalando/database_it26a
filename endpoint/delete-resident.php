@@ -1,36 +1,17 @@
 <?php
-include ('http://localhost/barangay-population-monitoring-system/conn/conn.php');
+include('../conn/conn.php');
 
 if (isset($_GET['resident'])) {
-    $resident = $_GET['resident'];
+    $tbl_resident_id = $_GET['resident'];
 
-    try {
+    $stmt = $conn->prepare("DELETE FROM tbl_resident WHERE tbl_resident_id = :tbl_resident_id");
+    $stmt->bindParam(':tbl_resident_id', $tbl_resident_id);
 
-        $query = "DELETE FROM tbl_resident WHERE tbl_resident_id = '$resident'";
-
-        $stmt = $conn->prepare($query);
-
-        $query_execute = $stmt->execute();
-
-        if ($query_execute) {
-            echo "
-                <script>
-                    alert('Resident deleted successfully!');
-                    window.location.href = 'http://localhost/barangay-population-monitoring-system/masterlist.php';
-                </script>
-            ";
-        } else {
-            echo "
-                <script>
-                    alert('Failed to delete resident!');
-                    window.location.href = 'http://localhost/barangay-population-monitoring-system/masterlist.php';
-                </script>
-            ";
-        }
-
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+    if ($stmt->execute()) {
+        header("Location: ../masterlist.php");
+        exit();
+    } else {
+        echo "Error deleting resident.";
     }
 }
-
 ?>

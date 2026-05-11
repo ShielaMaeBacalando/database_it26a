@@ -169,44 +169,40 @@
                     </tr>
                 </thead>
                 <tbody>
+    <?php 
+        // Correct PDO syntax to fetch users
+        $stmt = $conn->prepare("SELECT * FROM `tbl_user`");
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-                    <?php 
-                    
-                        $stmt = $conn->prepare("SELECT * FROM `tbl_user`");
-                        $stmt->execute();
-
-                        $result = $stmt->fetchAll();
-
-                        foreach ($result as $row) {
-                            $userID = $row['tbl_user_id'];
-                            $firstName = $row['first_name'];
-                            $lastName = $row['last_name'];
-                            $contactNumber = $row['contact_number'];
-                            $email = $row['email'];
-                            $username = $row['username'];
-                            $password = $row['password'];
-
-                        ?>
-
-                        <tr>
-                            <td id="userID-<?= $userID ?>"><?php echo $userID ?></td>
-                            <td id="firstName-<?= $userID ?>"><?php echo $firstName ?></td>
-                            <td id="lastName-<?= $userID ?>"><?php echo $lastName ?></td>
-                            <td id="contactNumber-<?= $userID ?>"><?php echo $contactNumber ?></td>
-                            <td id="email-<?= $userID ?>"><?php echo $email ?></td>
-                            <td id="username-<?= $userID ?>"><?php echo $username ?></td>
-                            <td id="password-<?= $userID ?>"><?php echo $password ?></td>
-                            <td>
-                                <button id="editBtn" onclick="update_user(<?php echo $userID ?>)" title="Edit">&#9998;</button>
-                                <button id="deleteBtn" onclick="delete_user(<?php echo $userID ?>)">&#128465;</button>
-                            </td>
-                        </tr>    
-
-                        <?php
-                        }
-
-                    ?>
-                </tbody>
+        foreach ($result as $row) {
+            $userID = $row['tbl_user_id'];
+            $firstName = $row['first_name'];
+            $lastName = $row['last_name'];
+            $contactNumber = $row['contact_number'];
+            $email = $row['email'];
+            $username = $row['username'];
+            $password = $row['password'];
+        ?>
+        <tr>
+            <td id="userID-<?= $userID ?>"><?php echo $userID ?></td>
+            <td id="firstName-<?= $userID ?>"><?php echo $firstName ?></td>
+            <td id="lastName-<?= $userID ?>"><?php echo $lastName ?></td>
+            <td id="contactNumber-<?= $userID ?>"><?php echo $contactNumber ?></td>
+            <td id="email-<?= $userID ?>"><?php echo $email ?></td>
+            <td id="username-<?= $userID ?>"><?php echo $username ?></td>
+            <td id="password-<?= $userID ?>"><?php echo $password ?></td>
+            <td>
+                <button class="btn btn-secondary btn-sm" onclick="update_user(<?php echo $userID ?>)" title="Edit">&#9998;</button>
+                <button class="btn btn-danger btn-sm" onclick="delete_user(<?php echo $userID ?>)">
+    🗑
+</button>
+            </td>
+        </tr>    
+        <?php
+        }
+    ?>
+</tbody>
             </table>
         </div>
     </div>
@@ -237,14 +233,12 @@
 
         }
 
-        // Delete user
+       // Delete user function - IMPROVED
         function delete_user(id) {
-            if (confirm("Do you want to delete this user?")) {
-                window.location = "./endpoint/delete-user.php?user=" + id;
-            }
-        }
-
-
+    if (confirm("⚠️ Are you sure you want to permanently delete this user?")) {
+        window.location.href = "./endpoint/delete-user.php?user=" + id;
+    }
+}
     </script>
     
     <!-- Bootstrap Js -->
