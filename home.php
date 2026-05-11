@@ -98,6 +98,7 @@
                     <li><a class="dropdown-item" href="http://localhost/barangay-population-monitoring-system/index.php">Log Out</a></li>
                 </ul>
             </li>
+            
         </ul>
     </div>
 </nav>
