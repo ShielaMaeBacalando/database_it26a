@@ -21,6 +21,13 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
         }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        .navbar-brand span {
+            color: #ffc107;
+        }
 
         .main {
             display: flex;
@@ -82,23 +89,26 @@
 <body>
     
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-2 ml-md-5" href="home.php">Barangay<span>PMS</a>
+        <a class="navbar-brand ml-2 ml-md-5" href="about us.php">Barangay<span>PMS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarScroll">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard</a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist</a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php">Masterlist</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/incidents.php">Incidents</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php">Users <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
+                    <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php">History</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">

@@ -1,5 +1,15 @@
 <?php include ('./conn/conn.php'); ?>
 
+<!-- ADDED: Clear History Handler -->
+<?php
+if (isset($_POST['clear_history'])) {
+    $clearStmt = $conn->prepare("TRUNCATE TABLE tbl_login_history");
+    $clearStmt->execute();
+    echo "<script>alert('Login history has been cleared!'); window.location.href='history.php';</script>";
+}
+?>
+<!-- END: Clear History Handler -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,17 +45,16 @@
             justify-content: center;
             align-items: center;
             background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-            /* Changed height to min-height so the background stretches if the table is long */
             min-height: 92.09vh; 
-            padding: 20px 15px; /* Added padding for mobile spacing */
+            padding: 20px 15px;
         }
 
         .login, .registration {
             border-radius: 5px;
             margin: 10px;
             padding: 30px;
-            width: 100%; /* Changed from fixed width */
-            max-width: 450px; /* Added max-width for larger screens */
+            width: 100%;
+            max-width: 450px;
             background-color: #fff;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
@@ -67,9 +76,8 @@
             border-radius: 5px;
             background-color: #fff;
             padding: 20px;
-            /* Removed height: 500px; and margin-top: -50px; so the box grows with the table content */
             width: 100%;
-            max-width: 1200px; /* Prevents the box from getting too wide on large desktops */
+            max-width: 1200px;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
@@ -78,34 +86,69 @@
             width: 30px;
         }
 
-        /* Optional: Makes the table text slightly smaller on mobile to fit better */
-        @media (max-width: 768px) {
-            .table {
-                font-size: 14px;
-            }
-        }
+        /* ADDED: Style for the header row with button */
+        /* ADDED: Style for the header row with button */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;       /* Allows wrapping on small screens */
+    gap: 10px;             /* Spacing between title and button */
+}
+.btn-clear-history {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 18px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;   /* Prevents button text from breaking */
+}
+.btn-clear-history:hover {
+    background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+    .table {
+        font-size: 14px;
+    }
+    /* ADDED: Stack header row vertically on mobile */
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .btn-clear-history {
+        width: 100%;
+        text-align: center;
+    }
+}
     </style>
 </head>
 <body>
     
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand ml-2 ml-md-5" href="dashboard.php">Barangay<span>PMS</span></a>
+    <a class="navbar-brand ml-2 ml-md-5" href="about us.php">Barangay<span>PMS</span></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarScroll">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard</a>
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/dashboard.php">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist</a>
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/masterlist.php">Masterlist</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php/">Users</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/incidents.php">Incidents</a>
+                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/home.php">Users</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php/">History <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="http://localhost/barangay-population-monitoring-system/history.php">History <span class="sr-only">(current)</span></a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -121,10 +164,18 @@
 
     <div class="main">
         <div class="container">
-            <h4>Login History</h4>
+
+            <!-- ADDED: Header row with Clear History button -->
+            <div class="header-row">
+                <h4>Login History</h4>
+                <form method="POST" onsubmit="return confirm('Are you sure you want to clear all login history?');">
+                    <button type="submit" name="clear_history" class="btn-clear-history">Clear History</button>
+                </form>
+            </div>
+            <!-- END: Header row with Clear History button -->
+
             <hr>
             
-            <!-- ADDED table-responsive wrapper: This allows horizontal scrolling on mobile devices -->
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -141,7 +192,6 @@
                     </thead>
                     <tbody>
                         <?php 
-                            // Prepare the JOIN query
                             $stmt = $conn->prepare("
                                 SELECT 
                                     tbl_user.tbl_user_id AS userID,
@@ -171,7 +221,7 @@
                                 $email = $row['email'];
                                 $username = $row['username'];
                                 $password = $row['password'];
-                                $lastLoginTime = $row['lastLoginTime']; // Login history column
+                                $lastLoginTime = $row['lastLoginTime'];
                         ?>
                             <tr>
                                 <td id="userID-<?= $userID ?>"><?php echo $userID ?></td>
@@ -180,12 +230,7 @@
                                 <td id="contactNumber-<?= $userID ?>"><?php echo $contactNumber ?></td>
                                 <td id="email-<?= $userID ?>"><?php echo $email ?></td>
                                 <td id="username-<?= $userID ?>"><?php echo $username ?></td>
-                                
-                                <!-- Security Note: Displaying passwords in the UI is a security risk. 
-                                     Even if hashed, it's best practice to hide it. 
-                                     I've masked it here for better security and UX. -->
                                 <td id="password-<?= $userID ?>">••••••••</td>
-                                
                                 <td id="lastLoginTime-<?= $userID ?>"><?php echo $lastLoginTime ? $lastLoginTime : 'No login history'; ?></td>
                             </tr>    
                         <?php
@@ -193,7 +238,7 @@
                         ?>
                     </tbody>
                 </table>
-            </div> <!-- End of table-responsive -->
+            </div>
 
         </div>
     </div>

@@ -361,7 +361,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-lg-4" href="#">Barangay<span>PMS</span></a>
+        <a class="navbar-brand ml-lg-4" href="about us.php">Barangay<span>PMS</span></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -369,16 +369,19 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/dashboard.php/">Dashboard</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item active">
-                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/masterlist.php/">Masterlist <span class="sr-only">(current)</span></a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/masterlist.php">Masterlist <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/home.php/">Users</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/incidents.php">Incidents</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/history.php/">History</a>
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/home.php">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="http://localhost/barangay-population-monitoring-system/history.php">History</a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
