@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us — Barangay Population Monitoring System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0a0f0d;
+            --bg-secondary: #111a16;
+            --fg: #e8efe9;
+            --fg-muted: #8a9e90;
+            --accent: #d4a843;
+            --accent-glow: rgba(212, 168, 67, 0.25);
+            --teal: #1a7a5c;
+            --teal-deep: #0e4d38;
+            --teal-light: #2aad82;
+            --card: rgba(17, 30, 24, 0.85);
+            --card-border: rgba(42, 173, 130, 0.15);
+            --border: rgba(138, 158, 144, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--teal) var(--bg);
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* ===== NAVBAR ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(0px);
+        }
+
+        nav.scrolled {
+            background: rgba(10, 15, 13, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.7rem 2rem;
+        }
+
+        .nav-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--fg);
+        }
+
+        .nav-brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--teal), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--bg);
+            font-weight: 700;
+        }
+
+        .nav-brand-text {
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-brand-text span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--fg-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--fg); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--accent); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            color: #fff !important;
+            padding: 0.55rem 1.4rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s !important;
+        }
+
+        .nav-cta::after { display: none !important; }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 122, 92, 0.4);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+
+        .hamburger span {
+            width: 26px;
+            height: 2.5px;
+            background: var(--fg);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 80%, transparent 0%, var(--bg) 72%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 860px;
+            padding: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 168, 67, 0.1);
+            border: 1px solid rgba(212, 168, 67, 0.25);
+            color: var(--accent);
+            padding: 0.45rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeUp 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-badge i { font-size: 0.75rem; }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2.8rem, 6vw, 5.2rem);
+            line-height: 1.08;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.5rem;
+            animation: fadeUp 0.8s 0.15s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--accent), #e8c76a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title .teal-text {
+            background: linear-gradient(135deg, var(--teal-light), #3dd9a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 1.15rem;
+            color: var(--fg-muted);
+            max-width: 600px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.75;
+            animation: fadeUp 0.8s 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            animation: fadeUp 0.8s 0.45s ease forwards;
+            opacity: 0;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            color: #fff;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(26, 122, 92, 0.4);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: transparent;
+            color: var(--fg);
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            border: 1.5px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--teal-light);
+            color: var(--teal-light);
+            background: rgba(42, 173, 130, 0.06);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--fg-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: float 2.5s ease-in-out infinite;
+        }
+
+        .hero-scroll i { font-size: 1rem; }
+
+        /* ===== SECTIONS COMMON ===== */
+        section {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 28px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: var(--fg-muted);
+            font-size: 1.05rem;
+            max-width: 580px;
+            line-height: 1.75;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== ABOUT SECTION ===== */
+        .about-section {
+            background: var(--bg-secondary);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-top: 3rem;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .about-image-frame {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--teal-deep), var(--bg));
+        }
+
+        .about-image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+        }
+
+        .about-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(10, 15, 13, 0.6));
+        }
+
+        .about-float-card {
+            position: absolute;
+            bottom: -1.5rem;
+            right: -1.5rem;
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .about-float-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--teal), var(--teal-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+
+        .about-float-text h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .about-float-text p {
+            font-size: 0.78rem;
+            color: var(--fg-muted);
+        }
+
+        .about-text h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .about-text p {
+            color: var(--fg-muted);
+            margin-bottom: 1.2rem;
+            line-height: 1.8;
+        }
+
+        .about-text p strong {
+            color: var(--fg);
+        }
+
+        .about-checklist {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .about-checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.9rem;
+            color: var(--fg-muted);
+            font-size: 0.95rem;
+        }
+
+        .about-checklist li i {
+            color: var(--teal-light);
+            margin-top: 0.3rem;
+            font-size: 0.85rem;
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-bg-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: transform 0.4s, border-color 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--teal), var(--accent));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(42, 173, 130, 0.35);
+        }
+
+        .stat-card:hover::before { opacity: 1; }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 1.2rem;
+            background: linear-gradient(135deg, rgba(26, 122, 92, 0.2), rgba(42, 173, 130, 0.1));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--teal-light);
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.4rem;
+            color: var(--fg);
+        }
+
+        .stat-number .counter-suffix {
+            font-size: 1.6rem;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--fg-muted);
+            font-weight: 500;
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features-section {
+            background: var(--bg-secondary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: linear-gradient(180deg, transparent, rgba(26, 122, 92, 0.06));
+            transition: height 0.5s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(42, 173, 130, 0.3);
+        }
+
+        .feature-card:hover::after { height: 100%; }
+
+        .feature-card > * { position: relative; z-index: 1; }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, var(--teal-deep), var(--teal));
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.15rem;
+            color: #fff;
+            margin-bottom: 1.3rem;
+        }
+
+        .feature-card:nth-child(2) .feature-icon {
+            background: linear-gradient(135deg, #6b4c1e, var(--accent));
+        }
+
+        .feature-card:nth-child(3) .feature-icon {
+            background: linear-gradient(135deg, #1a4a6b, #2a8abd);
+        }
+
+        .feature-card:nth-child(4) .feature-icon {
+            background: linear-gradient(135deg, #5b1a5e, #b44abd);
+        }
+
+        .feature-card:nth-child(5) .feature-icon {
+            background: linear-gradient(135deg, #6b2e1a, #bd6a4a);
+        }
+
+        .feature-card:nth-child(6) .feature-icon {
+            background: linear-gradient(135deg, #1a6b5b, #4abda6);
+        }
+
+        .feature-card h3 {
+            font-size: 1.12rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+
+        .feature-card p {
+            color: var(--fg-muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* ===== MISSION VISION ===== */
+        .mv-section { }
+
+        .mv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .mv-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s;
+        }
+
+        .mv-card:hover { transform: translateY(-4px); }
+
+        .mv-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+        }
+
+        .mv-card.mission::before {
+            background: linear-gradient(180deg, var(--teal-light), var(--teal-deep));
+        }
+
+        .mv-card.vision::before {
+            background: linear-gradient(180deg, var(--accent), #8b6914);
+        }
+
+        .mv-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mv-card.mission .mv-card-icon {
+            background: rgba(42, 173, 130, 0.12);
+            color: var(--teal-light);
+        }
+
+        .mv-card.vision .mv-card-icon {
+            background: rgba(212, 168, 67, 0.12);
+            color: var(--accent);
+        }
+
+        .mv-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .mv-card p {
+            color: var(--fg-muted);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* ===== TEAM SECTION ===== */
+        .team-section {
+            background: var(--bg-secondary);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .team-card {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.4s;
+            text-align: center;
+        }
+
+        .team-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(42, 173, 130, 0.3);
+        }
+
+        .team-avatar {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--teal-deep), var(--bg));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: transform 0.5s;
+        }
+
+        .team-card:hover .team-avatar img {
+            transform: scale(1.08);
+        }
+
+        .team-avatar-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(10, 15, 13, 0.7));
+        }
+
+        .team-info {
+            padding: 1.3rem 1rem;
+        }
+
+        .team-info h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .team-info .role {
+            font-size: 0.8rem;
+            color: var(--teal-light);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .team-socials {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .team-socials a {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: rgba(42, 173, 130, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fg-muted);
+            font-size: 0.8rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .team-socials a:hover {
+            background: var(--teal);
+            color: #fff;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline-section { }
+
+        .timeline {
+            position: relative;
+            margin-top: 3rem;
+            padding-left: 3rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 14px;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--teal), var(--accent), var(--teal-deep));
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-item:last-child { margin-bottom: 0; }
+
+        .timeline-dot {
+            position: absolute;
+            left: -3rem;
+            top: 0.3rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--teal-light);
+            border: 3px solid var(--bg);
+            box-shadow: 0 0 0 3px var(--teal-deep);
+        }
+
+        .timeline-item:nth-child(even) .timeline-dot {
+            background: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.3);
+        }
+
+        .timeline-year {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-item h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .timeline-item p {
+            color: var(--fg-muted);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card {
+            background: linear-gradient(135deg, var(--teal-deep), rgba(14, 77, 56, 0.6));
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 4rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(212, 168, 67, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-card::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -15%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(42, 173, 130, 0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .cta-card > * { position: relative; z-index: 1; }
+
+        .cta-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .cta-card p {
+            color: rgba(232, 239, 233, 0.7);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .cta-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .footer-brand p {
+            color: var(--fg-muted);
+            font-size: 0.9rem;
+            margin-top: 0.8rem;
+            line-height: 1.7;
+            max-width: 300px;
+        }
+
+        .footer-col h5 {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--fg);
+            margin-bottom: 1rem;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col ul li a {
+            color: var(--fg-muted);
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover { color: var(--teal-light); }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: var(--fg-muted);
+            font-size: 0.82rem;
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .footer-socials a {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(42, 173, 130, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--fg-muted);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-socials a:hover {
+            background: var(--teal);
+            color: #fff;
+        }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 46px;
+            height: 46px;
+            background: var(--teal);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(26, 122, 92, 0.4);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--teal-light);
+            transform: translateY(-3px);
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            background: var(--card);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(20px);
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--fg);
+            font-size: 0.9rem;
+            animation: slideIn 0.4s ease, fadeOutToast 0.4s 2.6s ease forwards;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast i { color: var(--teal-light); font-size: 1.1rem; }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-8px); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeOutToast {
+            to { opacity: 0; transform: translateX(60px); }
+        }
+
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 0 rgba(42, 173, 130, 0.4); }
+            70% { box-shadow: 0 0 0 12px rgba(42, 173, 130, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(42, 173, 130, 0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 15, 13, 0.97);
+                backdrop-filter: blur(20px);
+                padding: 1.5rem 2rem;
+                border-bottom: 1px solid var(--border);
+                gap: 1rem;
+            }
+
+            .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .mv-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .team-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+
+            .hero-actions { flex-direction: column; }
+            .cta-actions { flex-direction: column; }
+            .cta-card { padding: 3rem 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+        }
+
+        /* ===== REDUCED MOTION ===== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            .reveal { opacity: 1; transform: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-inner">
+            <a href="#" class="nav-brand" aria-label="BPMS Home">
+                <div class="nav-brand-icon"><i class="fas fa-city"></i></div>
+                <div class="nav-brand-text">Barangay<span>PMS</span></div>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#stats">Statistics</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#mv">Mission & Vision</a></li>
+                <li><a href="#team">Our Team</a></li>
+                <li><a href="#timeline">History</a></li>
+                <li><a href="#cta" class="nav-cta">Get Started</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fas fa-shield-halved"></i> Official Government System</div>
+            <h1 class="hero-title">
+                Barangay<br>
+                <span class="teal-text">Population</span> Monitoring<br>
+                <span class="highlight">System</span>
+            </h1>
+            <p class="hero-desc">
+                Empowering local governance through real-time demographic data, streamlined resident management, and data-driven decision-making for every barangay.
+            </p>
+            <div class="hero-actions">
+                <a href="#about" class="btn-primary"><i class="fas fa-arrow-down"></i> Learn More</a>
+                <a href="#features" class="btn-outline"><i class="fas fa-compass"></i> Explore Features</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about-section" id="about">
+        <div class="section-inner">
+            <div class="reveal">
+                <span class="section-label">About the System</span>
+                <h2 class="section-title">Serving Communities<br>Through Data</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-visual reveal">
+                    <div class="about-image-frame">
+                        <img src="https://picsum.photos/seed/barangay-office/600/450.jpg" alt="Barangay Hall" loading="lazy">
+                        <div class="about-image-overlay"></div>
+                    </div>
+                    <div class="about-float-card">
+                        <div class="about-float-icon"><i class="fas fa-users"></i></div>
+                        <div class="about-float-text">
+                            <h4>42,046</h4>
+                            <p>Registered Residents</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text reveal">
+                    <h3>What is the Barangay Population Monitoring System?</h3>
+                    <p>
+                        The <strong>Barangay Population Monitoring System (BPMS)</strong> is a centralized digital platform designed to collect, organize, and analyze population data at the barangay level. It provides local government units with real-time insights into demographic trends, household compositions, and community needs.
+                    </p>
+                    <p>
+                        Built with compliance to the <strong>Philippine Data Privacy Act</strong> and aligned with the <strong>Community-Based Monitoring System (CBMS)</strong> framework, BPMS ensures that every resident is counted, every household is profiled, and every decision is backed by reliable data.
+                    </p>
+                    <ul class="about-checklist">
+                        <li><i class="fas fa-check-circle"></i> Real-time population tracking and analytics</li>
+                        <li><i class="fas fa-check-circle"></i> Household profiling with demographic breakdowns</li>
+                        <li><i class="fas fa-check-circle"></i> Automated report generation for LGU submissions</li>
+                        <li><i class="fas fa-check-circle"></i> Data Privacy Act of 2012 compliant</li>
+                        <li><i class="fas fa-check-circle"></i> CBMS-aligned indicators and frameworks</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats-section" id="stats">
+        <div class="stats-bg-glow"></div>
+        <div class="section-inner">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">By the Numbers</span>
+                <h2 class="section-title">Impact That Matters</h2>
+                <p class="section-subtitle" style="margin:0 auto;">Measurable outcomes driving better governance across every barangay we serve.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card reveal">
+                    <div class="stat-icon"><i class="fas fa-people-group"></i></div>
+                    <div class="stat-number"><span class="counter" data-target="42046">0</span></div>
+                    <div class="stat-label">Registered Residents</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-icon"><i class="fas fa-house-chimney"></i></div>
+                    <div class="stat-number"><span class="counter" data-target="9817">0</span></div>
+                    <div class="stat-label">Households Profiled</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-icon"><i class="fas fa-map-location-dot"></i></div>
+                    <div class="stat-number"><span class="counter" data-target="37">0</span></div>
+                    <div class="stat-label">Barangays Connected</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-number"><span class="counter" data-target="99">0</span><span class="counter-suffix">%</span></div>
+                    <div class="stat-label">Data Accuracy Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="features-section" id="features">
+        <div class="section-inner">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">Core Features</span>
+                <h2 class="section-title">Built for Modern Governance</h2>
+                <p class="section-subtitle" style="margin:0 auto;">Comprehensive tools designed to simplify population management and enhance community service delivery.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-database"></i></div>
+                    <h3>Resident Database</h3>
+                    <p>Centralized repository of resident records with complete demographic profiles, contact details, and household relationships. Supports advanced search, filtering, and bulk operations.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                    <h3>Demographic Analytics</h3>
+                    <p>Interactive dashboards displaying age distribution, gender ratios, employment statistics, and population density maps. Exportable charts for presentations and planning sessions.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-file-invoice"></i></div>
+                    <h3>Automated Reports</h3>
+                    <p>Generate barangay clearance, certification, and statistical reports with one click. Pre-formatted templates compliant with DILG and PSA standards save hours of manual work.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-bell"></i></div>
+                    <h3>Real-time Alerts</h3>
+                    <p>Instant notifications for population thresholds, document expiry, and community events. Configurable alert rules ensure critical information reaches the right officials immediately.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                    <h3>Data Security</h3>
+                    <p>Role-based access control, audit trails, and end-to-end encryption protect sensitive resident data. Full compliance with the Data Privacy Act of 2012 safeguarding personal information.</p>
+                </div>
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fas fa-mobile-screen-button"></i></div>
+                    <h3>Mobile Accessible</h3>
+                    <p>Responsive design works seamlessly on tablets and smartphones. Field workers can update records on-the-go, conduct door-to-door surveys, and sync data in real-time.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MISSION & VISION -->
+    <section class="mv-section" id="mv">
+        <div class="section-inner">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">Our Guiding Principles</span>
+                <h2 class="section-title">Mission and Vision</h2>
+            </div>
+            <div class="mv-grid">
+                <div class="mv-card mission reveal">
+                    <div class="mv-card-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>
+                        To provide every barangay with an accessible, reliable, and secure digital platform that captures the full picture of their community — enabling responsive governance, equitable resource allocation, and inclusive public service. We commit to turning raw data into meaningful action that improves the lives of every resident.
+                    </p>
+                </div>
+                <div class="mv-card vision reveal">
+                    <div class="mv-card-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>
+                        A Philippines where no barangay is left behind in the digital transformation — where every local government unit leverages real-time, data-driven insights to anticipate community needs, deliver timely interventions, and foster resilient, self-reliant communities that thrive across generations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team-section" id="team">
+        <div class="section-inner">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">Our Team</span>
+                <h2 class="section-title">The People Behind BPMS</h2>
+                <p class="section-subtitle" style="margin:0 auto;">Dedicated professionals committed to modernizing barangay governance through technology.</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <img src="https://picsum.photos/seed/team-maria/400/400.jpg" alt="Maria Santos" loading="lazy">
+                        <div class="team-avatar-overlay"></div>
+                    </div>
+                    <div class="team-info">
+                        <h4>Maria Santos</h4>
+                        <div class="role">Project Director</div>
+                        <div class="team-socials">
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <img src="https://picsum.photos/seed/team-juan/400/400.jpg" alt="Juan Reyes" loading="lazy">
+                        <div class="team-avatar-overlay"></div>
+                    </div>
+                    <div class="team-info">
+                        <h4>Juan Reyes</h4>
+                        <div class="role">Lead Developer</div>
+                        <div class="team-socials">
+                            <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <img src="https://picsum.photos/seed/team-ana/400/400.jpg" alt="Ana Cruz" loading="lazy">
+                        <div class="team-avatar-overlay"></div>
+                    </div>
+                    <div class="team-info">
+                        <h4>Ana Cruz</h4>
+                        <div class="role">Data Analyst</div>
+                        <div class="team-socials">
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="team-card reveal">
+                    <div class="team-avatar">
+                        <img src="https://picsum.photos/seed/team-carlo/400/400.jpg" alt="Carlo Mendoza" loading="lazy">
+                        <div class="team-avatar-overlay"></div>
+                    </div>
+                    <div class="team-info">
+                        <h4>Carlo Mendoza</h4>
+                        <div class="role">UI/UX Designer</div>
+                        <div class="team-socials">
+                            <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+                            <a href="#" aria-label="Email"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="timeline-section" id="timeline">
+        <div class="section-inner">
+            <div class="reveal" style="text-align:center;">
+                <span class="section-label" style="justify-content:center;">Our Journey</span>
+                <h2 class="section-title">Milestones and History</h2>
+            </div>
+            <div class="timeline" style="max-width:700px; margin:3rem auto 0;">
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2019 — Project Inception</div>
+                    <h4>Conceptualization and Research</h4>
+                    <p>Initial research conducted across 12 barangays identified the critical need for a centralized population monitoring platform. Feasibility studies and stakeholder consultations began.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2020 — Development Phase</div>
+                    <h4>Platform Architecture and Build</h4>
+                    <p>Core development commenced with a focus on data security, offline capability, and compliance with the Data Privacy Act. First working prototype completed by Q4.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2021 — Pilot Launch</div>
+                    <h4>Pilot Testing in 5 Barangays</h4>
+                    <p>Successful pilot deployment across 5 barangays in Metro Manila. Over 15,000 resident records digitized. User feedback drove 40+ feature improvements.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2022 — City-Wide Rollout</div>
+                    <h4>Scaling to 37 Barangays</h4>
+                    <p>Full deployment across all 37 barangays. Integration with PhilSys and CBMS frameworks completed. Automated reporting reduced LGU paperwork by 65%.</p>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">2024 — Present</div>
+                    <h4>National Recognition and Expansion</h4>
+                    <p>Recognized by DILG as a model digital governance tool. Over 42,000 residents profiled. Expansion to neighboring municipalities underway, with a target of 100 barangays by 2026.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="nav-brand" aria-label="BPMS Home">
+                        <div class="nav-brand-icon"><i class="fas fa-city"></i></div>
+                        <div class="nav-brand-text">Barangay<span>PMS</span></div>
+                    </a>
+                    <p>Empowering local governance through data-driven population monitoring and community management solutions.</p>
+                </div>
+                <div class="footer-col">
+                    <h5>Quick Links</h5>
+                    <ul>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#mv">Mission & Vision</a></li>
+                        <li><a href="#team">Our Team</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">User Guide</a></li>
+                        <li><a href="#">Data Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-map-marker-alt" style="width:16px;"></i> Barangay Hall, Makati City</a></li>
+                        <li><a href="mailto:info@barangaypms.gov.ph"><i class="fas fa-envelope" style="width:16px;"></i> info@barangaypms.gov.ph</a></li>
+                        <li><a href="tel:+63288881234"><i class="fas fa-phone" style="width:16px;"></i> (02) 8888-1234</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2024 Barangay Population Monitoring System. All rights reserved.</span>
+                <div class="footer-socials">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="back-to-top" id="backToTop" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        /* ===== HERO CANVAS — Network Node Animation ===== */
+        (function() {
+            const canvas = document.getElementById('hero-canvas');
+            const ctx = canvas.getContext('2d');
+            let width, height, nodes, mouse;
+            const NODE_COUNT = 80;
+            const CONNECTION_DIST = 160;
+
+            mouse = { x: -9999, y: -9999 };
+
+            function resize() {
+                width = canvas.width = canvas.offsetWidth;
+                height = canvas.height = canvas.offsetHeight;
+            }
+
+            function createNodes() {
+                nodes = [];
+                for (let i = 0; i < NODE_COUNT; i++) {
+                    nodes.push({
+                        x: Math.random() * width,
+                        y: Math.random() * height,
+                        vx: (Math.random() - 0.5) * 0.6,
+                        vy: (Math.random() - 0.5) * 0.6,
+                        radius: Math.random() * 2.5 + 1,
+                        /* Mix of teal and gold nodes */
+                        color: Math.random() > 0.7 ? 'rgba(212,168,67,' : 'rgba(42,173,130,'
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+
+                /* Draw connections */
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const dx = nodes[i].x - nodes[j].x;
+                        const dy = nodes[i].y - nodes[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < CONNECTION_DIST) {
+                            const alpha = (1 - dist / CONNECTION_DIST) * 0.15;
+                            ctx.beginPath();
+                            ctx.strokeStyle = 'rgba(42,173,130,' + alpha + ')';
+                            ctx.lineWidth = 0.8;
+                            ctx.moveTo(nodes[i].x, nodes[i].y);
+                            ctx.lineTo(nodes[j].x, nodes[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                /* Draw & update nodes */
+                for (const node of nodes) {
+                    /* Mouse interaction */
+                    const mdx = node.x - mouse.x;
+                    const mdy = node.y - mouse.y;
+                    const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+                    if (mdist < 200) {
+                        const force = (200 - mdist) / 200 * 0.015;
+                        node.vx += mdx * force;
+                        node.vy += mdy * force;
+                    }
+
+                    /* Move */
+                    node.x += node.vx;
+                    node.y += node.vy;
+
+                    /* Friction */
+                    node.vx *= 0.995;
+                    node.vy *= 0.995;
+
+                    /* Bounds wrap */
+                    if (node.x < -20) node.x = width + 20;
+                    if (node.x > width + 20) node.x = -20;
+                    if (node.y < -20) node.y = height + 20;
+                    if (node.y > height + 20) node.y = -20;
+
+                    /* Draw */
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, Math.max(0.5, node.radius), 0, Math.PI * 2);
+                    ctx.fillStyle = node.color + '0.7)';
+                    ctx.fill();
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            window.addEventListener('resize', () => { resize(); });
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+            canvas.addEventListener('mouseleave', () => {
+                mouse.x = -9999;
+                mouse.y = -9999;
+            });
+
+            resize();
+            createNodes();
+            draw();
+        })();
+
+        /* ===== NAVBAR SCROLL ===== */
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('backToTop');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (scrollY > 60) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (scrollY > 600) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ===== HAMBURGER ===== */
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+            const spans = hamburger.querySelectorAll('span');
+            if (navLinks.classList.contains('open')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        /* Close menu on link click */
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('open');
+                const spans = hamburger.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+
+        /* ===== ACTIVE NAV LINK ON SCROLL ===== */
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = navLinks.querySelectorAll('a[href^="#"]');
+
+        function updateActiveNav() {
+            const scrollY = window.scrollY + 200;
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+                if (scrollY >= top && scrollY < top + height) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === '#' + id) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+
+        /* ===== SCROLL REVEAL ===== */
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        /* ===== COUNTER ANIMATION ===== */
+        const counters = document.querySelectorAll('.counter');
+        let countersAnimated = false;
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !countersAnimated) {
+                    countersAnimated = true;
+                    counters.forEach(counter => {
+                        const target = parseInt(counter.getAttribute('data-target'));
+                        const duration = 2000;
+                        const startTime = performance.now();
+
+                        function updateCounter(currentTime) {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            /* Ease out cubic */
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const current = Math.round(eased * target);
+                            counter.textContent = current.toLocaleString();
+                            if (progress < 1) {
+                                requestAnimationFrame(updateCounter);
+                            }
+                        }
+                        requestAnimationFrame(updateCounter);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        const statsSection = document.getElementById('stats');
+        if (statsSection) counterObserver.observe(statsSection);
+
+        /* ===== TOAST ===== */
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 3200);
+        }
+
+        /* ===== SMOOTH SCROLL FOR ANCHOR LINKS ===== */
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
