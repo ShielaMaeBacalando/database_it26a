@@ -67,6 +67,13 @@ foreach ($residentCountResult as $row) {
             background-attachment: fixed;
             /* Removed min-width: 1500px to allow mobile scaling */
         }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        .navbar-brand span {
+            color: #ffc107;
+        }
 
         .main {
             display: flex;

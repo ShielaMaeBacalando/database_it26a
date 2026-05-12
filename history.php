@@ -21,6 +21,13 @@
             padding: 0;
             font-family: 'Poppins', sans-serif;
         }
+        .navbar-brand {
+            font-weight: 600;
+            font-size: 1.25rem;
+        }
+        .navbar-brand span {
+            color: #ffc107;
+        }
 
         .main {
             display: flex;
