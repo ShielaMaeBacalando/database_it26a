@@ -2,37 +2,37 @@
 include('./conn/conn.php');
 
 // Fetching total population
-$totalPopulationStmt = $conn->prepare("SELECT COUNT(*) as totalPopulation FROM tbl_resident");
-$totalPopulationStmt->execute();
-$totalPopulationResult = $totalPopulationStmt->fetch(PDO::FETCH_ASSOC);
-$totalPopulation = $totalPopulationResult['totalPopulation'];
+ $totalPopulationStmt = $conn->prepare("SELECT COUNT(*) as totalPopulation FROM tbl_resident");
+ $totalPopulationStmt->execute();
+ $totalPopulationResult = $totalPopulationStmt->fetch(PDO::FETCH_ASSOC);
+ $totalPopulation = $totalPopulationResult['totalPopulation'];
 
 // Fetching the number of Purok
-$numPurokStmt = $conn->prepare("SELECT COUNT(DISTINCT address) as numPurok FROM tbl_resident");
-$numPurokStmt->execute();
-$numPurokResult = $numPurokStmt->fetch(PDO::FETCH_ASSOC);
-$numPurok = $numPurokResult['numPurok'];
+ $numPurokStmt = $conn->prepare("SELECT COUNT(DISTINCT address) as numPurok FROM tbl_resident");
+ $numPurokStmt->execute();
+ $numPurokResult = $numPurokStmt->fetch(PDO::FETCH_ASSOC);
+ $numPurok = $numPurokResult['numPurok'];
 
 // Fetching the most populated Purok
-$mostPopulatedPurokStmt = $conn->prepare("SELECT address, COUNT(*) as population FROM tbl_resident GROUP BY address ORDER BY population DESC LIMIT 1");
-$mostPopulatedPurokStmt->execute();
-$mostPopulatedPurokResult = $mostPopulatedPurokStmt->fetch(PDO::FETCH_ASSOC);
-$mostPopulatedPurok = $mostPopulatedPurokResult['address'];
+ $mostPopulatedPurokStmt = $conn->prepare("SELECT address, COUNT(*) as population FROM tbl_resident GROUP BY address ORDER BY population DESC LIMIT 1");
+ $mostPopulatedPurokStmt->execute();
+ $mostPopulatedPurokResult = $mostPopulatedPurokStmt->fetch(PDO::FETCH_ASSOC);
+ $mostPopulatedPurok = $mostPopulatedPurokResult['address'];
 
 // Fetching the average population
-$averagePopulationStmt = $conn->prepare("SELECT AVG(population) as averagePopulation FROM (SELECT COUNT(*) as population FROM tbl_resident GROUP BY address) as subquery");
-$averagePopulationStmt->execute();
-$averagePopulationResult = $averagePopulationStmt->fetch(PDO::FETCH_ASSOC);
-$averagePopulation = number_format($averagePopulationResult['averagePopulation'], 2);
+ $averagePopulationStmt = $conn->prepare("SELECT AVG(population) as averagePopulation FROM (SELECT COUNT(*) as population FROM tbl_resident GROUP BY address) as subquery");
+ $averagePopulationStmt->execute();
+ $averagePopulationResult = $averagePopulationStmt->fetch(PDO::FETCH_ASSOC);
+ $averagePopulation = number_format($averagePopulationResult['averagePopulation'], 2);
 
 // Fetching resident count for each Purok
-$residentCountStmt = $conn->prepare("SELECT address, COUNT(*) as residentCount FROM tbl_resident GROUP BY address");
-$residentCountStmt->execute();
-$residentCountResult = $residentCountStmt->fetchAll(PDO::FETCH_ASSOC);
+ $residentCountStmt = $conn->prepare("SELECT address, COUNT(*) as residentCount FROM tbl_resident GROUP BY address");
+ $residentCountStmt->execute();
+ $residentCountResult = $residentCountStmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Prepare data for JavaScript
-$labels = [];
-$data = [];
+ $labels = [];
+ $data = [];
 
 foreach ($residentCountResult as $row) {
     $labels[] = $row['address'];
@@ -45,7 +45,7 @@ foreach ($residentCountResult as $row) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barangay Population Monitoring System</title>
+    <title>Barangay <span>PMS</span></title>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -65,7 +65,7 @@ foreach ($residentCountResult as $row) {
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            min-width: 1500px;
+            /* Removed min-width: 1500px to allow mobile scaling */
         }
 
         .main {
@@ -73,38 +73,43 @@ foreach ($residentCountResult as $row) {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 20px 0;
         }
 
         .card {
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            height: 100%; /* Makes cards equal height in the row */
         }
 
-        .cards-container {
-            width: 85%;
-            display: flex;
-            justify-content: space-between;
-            margin: 35px;
-        }
-        
         .graph-container {
-            display: flex;
-            justify-content: center;
             background-color: rgb(255, 255, 255);
             padding: 20px;
-            width: 85%;
+            width: 100%;
             box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
             border-radius: 10px;
+            position: relative;
+            height: 400px; /* Default height for mobile */
         }
 
-        #myChart {
-            height: 640px !important;
+        /* Medium screens and up */
+        @media (min-width: 768px) {
+            .graph-container {
+                height: 500px;
+            }
+        }
+
+        /* Large screens and up */
+        @media (min-width: 992px) {
+            .graph-container {
+                height: 640px; /* Original height */
+            }
         }
     </style>
 </head>
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand ml-4">Barangay Population Monitoring System</a>
+        <a class="navbar-brand ml-2 ml-md-4">Barangay Population Monitoring System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -134,36 +139,52 @@ foreach ($residentCountResult as $row) {
     
     <div class="main">
 
-        <div class="cards-container">
-            <div class="card text-center" style="width: 16.5rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Total Population</h5>
-                    <h2 class="card-text"><?= $totalPopulation ?></h2>
+        <!-- Replaced custom flex with Bootstrap Container and Row -->
+        <div class="container-fluid" style="max-width: 1500px;">
+            <div class="row">
+                <!-- col-lg-3 means 4 cards per row on large screens -->
+                <!-- col-md-6 means 2 cards per row on medium screens -->
+                <!-- col-12 means 1 card per row on small screens -->
+                <div class="col-lg-3 col-md-6 col-12 mb-4 mt-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Population</h5>
+                            <h2 class="card-text"><?= $totalPopulation ?></h2>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-center" style="width: 16.5rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Number of Purok</h5>
-                    <h2 class="card-text"><?= $numPurok ?></h2>
+                <div class="col-lg-3 col-md-6 col-12 mb-4 mt-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Number of Purok</h5>
+                            <h2 class="card-text"><?= $numPurok ?></h2>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-center" style="width: 16.5rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Most Populated Purok</h5>
-                    <h2 class="card-text"><?= $mostPopulatedPurok ?></h2>
+                <div class="col-lg-3 col-md-6 col-12 mb-4 mt-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Most Populated Purok</h5>
+                            <h2 class="card-text"><?= $mostPopulatedPurok ?></h2>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-center" style="width: 16.5rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Average Population</h5>
-                    <h2 class="card-text"><?= $averagePopulation ?></h2>
+                <div class="col-lg-3 col-md-6 col-12 mb-4 mt-4">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">Average Population</h5>
+                            <h2 class="card-text"><?= $averagePopulation ?></h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="graph-container">
-            <canvas id="myChart"></canvas>
-        <div>
+        <div class="container-fluid" style="max-width: 1500px;">
+            <div class="graph-container">
+                <canvas id="myChart"></canvas>
+            </div> <!-- Fixed missing closing div tag -->
+        </div>
 
     </div>
 
@@ -175,7 +196,6 @@ foreach ($residentCountResult as $row) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-
         const ctx = document.getElementById('myChart');
 
         new Chart(ctx, {
@@ -186,20 +206,29 @@ foreach ($residentCountResult as $row) {
                     label: 'Number of Residents per Purok',
                     data: <?= json_encode($data) ?>,
                     borderWidth: 1,
-                    barThickness: 60
+                    // barThickness: 60 // Removed to allow bars to scale naturally on smaller screens
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false, // Required when putting canvas inside a fixed-height container
                 indexAxis: 'y',
-
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            // Auto-skip labels if screen gets too small to prevent overlapping
+                            autoSkip: true, 
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            autoSkip: true,
+                        }
                     }
                 }
             }
         });
-
     </script>
 </body>
 </html>

@@ -1,9 +1,17 @@
+<?php
+// Start session if needed for the monitoring system (optional, but good practice)
+session_start();
+
+// Dynamic page variables
+ $currentPage = basename($_SERVER['PHP_SELF']);
+ $pageTitle = "About Us — Barangay Population Monitoring System";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us — Barangay Population Monitoring System</title>
+    <title><?php echo $pageTitle; ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
@@ -493,94 +501,6 @@
             font-size: 0.85rem;
         }
 
-        /* ===== STATS SECTION ===== */
-        .stats-section {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stats-bg-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
-            position: relative;
-        }
-
-        .stat-card {
-            background: var(--card);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 2rem 1.5rem;
-            text-align: center;
-            transition: transform 0.4s, border-color 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--teal), var(--accent));
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(42, 173, 130, 0.35);
-        }
-
-        .stat-card:hover::before { opacity: 1; }
-
-        .stat-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 1.2rem;
-            background: linear-gradient(135deg, rgba(26, 122, 92, 0.2), rgba(42, 173, 130, 0.1));
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: var(--teal-light);
-        }
-
-        .stat-number {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.6rem;
-            font-weight: 900;
-            line-height: 1;
-            margin-bottom: 0.4rem;
-            color: var(--fg);
-        }
-
-        .stat-number .counter-suffix {
-            font-size: 1.6rem;
-            color: var(--accent);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--fg-muted);
-            font-weight: 500;
-        }
-
         /* ===== FEATURES SECTION ===== */
         .features-section {
             background: var(--bg-secondary);
@@ -588,7 +508,7 @@
 
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
             margin-top: 3rem;
         }
@@ -640,22 +560,6 @@
             background: linear-gradient(135deg, #6b4c1e, var(--accent));
         }
 
-        .feature-card:nth-child(3) .feature-icon {
-            background: linear-gradient(135deg, #1a4a6b, #2a8abd);
-        }
-
-        .feature-card:nth-child(4) .feature-icon {
-            background: linear-gradient(135deg, #5b1a5e, #b44abd);
-        }
-
-        .feature-card:nth-child(5) .feature-icon {
-            background: linear-gradient(135deg, #6b2e1a, #bd6a4a);
-        }
-
-        .feature-card:nth-child(6) .feature-icon {
-            background: linear-gradient(135deg, #1a6b5b, #4abda6);
-        }
-
         .feature-card h3 {
             font-size: 1.12rem;
             font-weight: 700;
@@ -666,300 +570,6 @@
             color: var(--fg-muted);
             font-size: 0.9rem;
             line-height: 1.7;
-        }
-
-        /* ===== MISSION VISION ===== */
-        .mv-section { }
-
-        .mv-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .mv-card {
-            background: var(--card);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.4s;
-        }
-
-        .mv-card:hover { transform: translateY(-4px); }
-
-        .mv-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-        }
-
-        .mv-card.mission::before {
-            background: linear-gradient(180deg, var(--teal-light), var(--teal-deep));
-        }
-
-        .mv-card.vision::before {
-            background: linear-gradient(180deg, var(--accent), #8b6914);
-        }
-
-        .mv-card-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .mv-card.mission .mv-card-icon {
-            background: rgba(42, 173, 130, 0.12);
-            color: var(--teal-light);
-        }
-
-        .mv-card.vision .mv-card-icon {
-            background: rgba(212, 168, 67, 0.12);
-            color: var(--accent);
-        }
-
-        .mv-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .mv-card p {
-            color: var(--fg-muted);
-            line-height: 1.8;
-            font-size: 0.95rem;
-        }
-
-        /* ===== TEAM SECTION ===== */
-        .team-section {
-            background: var(--bg-secondary);
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-
-        .team-card {
-            background: var(--card);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: all 0.4s;
-            text-align: center;
-        }
-
-        .team-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(42, 173, 130, 0.3);
-        }
-
-        .team-avatar {
-            width: 100%;
-            aspect-ratio: 1;
-            background: linear-gradient(135deg, var(--teal-deep), var(--bg));
-            position: relative;
-            overflow: hidden;
-        }
-
-        .team-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-            transition: transform 0.5s;
-        }
-
-        .team-card:hover .team-avatar img {
-            transform: scale(1.08);
-        }
-
-        .team-avatar-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg, transparent 50%, rgba(10, 15, 13, 0.7));
-        }
-
-        .team-info {
-            padding: 1.3rem 1rem;
-        }
-
-        .team-info h4 {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 0.2rem;
-        }
-
-        .team-info .role {
-            font-size: 0.8rem;
-            color: var(--teal-light);
-            font-weight: 600;
-            margin-bottom: 0.8rem;
-        }
-
-        .team-socials {
-            display: flex;
-            justify-content: center;
-            gap: 0.6rem;
-        }
-
-        .team-socials a {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(42, 173, 130, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--fg-muted);
-            font-size: 0.8rem;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .team-socials a:hover {
-            background: var(--teal);
-            color: #fff;
-        }
-
-        /* ===== TIMELINE ===== */
-        .timeline-section { }
-
-        .timeline {
-            position: relative;
-            margin-top: 3rem;
-            padding-left: 3rem;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 14px;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--teal), var(--accent), var(--teal-deep));
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 2.5rem;
-            padding-left: 1.5rem;
-        }
-
-        .timeline-item:last-child { margin-bottom: 0; }
-
-        .timeline-dot {
-            position: absolute;
-            left: -3rem;
-            top: 0.3rem;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--teal-light);
-            border: 3px solid var(--bg);
-            box-shadow: 0 0 0 3px var(--teal-deep);
-        }
-
-        .timeline-item:nth-child(even) .timeline-dot {
-            background: var(--accent);
-            box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.3);
-        }
-
-        .timeline-year {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            margin-bottom: 0.4rem;
-        }
-
-        .timeline-item h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.3rem;
-        }
-
-        .timeline-item p {
-            color: var(--fg-muted);
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
-
-        /* ===== CTA SECTION ===== */
-        .cta-section {
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-card {
-            background: linear-gradient(135deg, var(--teal-deep), rgba(14, 77, 56, 0.6));
-            border: 1px solid var(--card-border);
-            border-radius: 24px;
-            padding: 4rem 3rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(212, 168, 67, 0.1) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .cta-card::after {
-            content: '';
-            position: absolute;
-            bottom: -40%;
-            left: -15%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(42, 173, 130, 0.1) 0%, transparent 60%);
-            pointer-events: none;
-        }
-
-        .cta-card > * { position: relative; z-index: 1; }
-
-        .cta-card h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 3.5vw, 2.8rem);
-            font-weight: 900;
-            margin-bottom: 1rem;
-        }
-
-        .cta-card p {
-            color: rgba(232, 239, 233, 0.7);
-            max-width: 500px;
-            margin: 0 auto 2rem;
-            font-size: 1.05rem;
-            line-height: 1.7;
-        }
-
-        .cta-actions {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
         }
 
         /* ===== FOOTER ===== */
@@ -1081,34 +691,6 @@
             transform: translateY(-3px);
         }
 
-        /* ===== TOAST ===== */
-        .toast-container {
-            position: fixed;
-            top: 1.5rem;
-            right: 1.5rem;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .toast {
-            background: var(--card);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(20px);
-            border-radius: var(--radius-sm);
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            color: var(--fg);
-            font-size: 0.9rem;
-            animation: slideIn 0.4s ease, fadeOutToast 0.4s 2.6s ease forwards;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .toast i { color: var(--teal-light); font-size: 1.1rem; }
-
         /* ===== ANIMATIONS ===== */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(30px); }
@@ -1120,25 +702,8 @@
             50% { transform: translateX(-50%) translateY(-8px); }
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        @keyframes fadeOutToast {
-            to { opacity: 0; transform: translateX(60px); }
-        }
-
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(42, 173, 130, 0.4); }
-            70% { box-shadow: 0 0 0 12px rgba(42, 173, 130, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(42, 173, 130, 0); }
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .team-grid { grid-template-columns: repeat(2, 1fr); }
             .footer-grid { grid-template-columns: 1fr 1fr; }
         }
 
@@ -1162,19 +727,9 @@
 
             .about-grid { grid-template-columns: 1fr; gap: 2rem; }
             .features-grid { grid-template-columns: 1fr; }
-            .mv-grid { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-            .team-grid { grid-template-columns: 1fr 1fr; }
             .footer-grid { grid-template-columns: 1fr; }
 
             .hero-actions { flex-direction: column; }
-            .cta-actions { flex-direction: column; }
-            .cta-card { padding: 3rem 1.5rem; }
-        }
-
-        @media (max-width: 480px) {
-            .stats-grid { grid-template-columns: 1fr; }
-            .team-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
         }
 
         /* ===== REDUCED MOTION ===== */
@@ -1193,14 +748,14 @@
     <!-- NAVBAR -->
     <nav id="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-inner">
-            <a href="#" class="nav-brand" aria-label="BPMS Home">
+            <a href="index.php" class="nav-brand" aria-label="BPMS Home">
                 <div class="nav-brand-icon"><i class="fas fa-city"></i></div>
                 <div class="nav-brand-text">Barangay<span>PMS</span></div>
             </a>
             <ul class="nav-links" id="navLinks">
-                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#about" class="<?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>">About</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="index.php">Get Started</a></li>
+                <li><a href="index.php" class="nav-cta">Get Started</a></li>
             </ul>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -1255,7 +810,6 @@
                     <p>
                         The <strong>Barangay Population Monitoring System (BPMS)</strong> is a centralized digital platform designed to collect, organize, and analyze population data at the barangay level. 
                     </p>
-                   
                 </div>
             </div>
         </div>
@@ -1280,17 +834,16 @@
                     <h3>Demographic Analytics</h3>
                     <p>Interactive dashboards displaying resident statistics, and population density.</p>
                 </div>
-                
+            </div>
         </div>
     </section>
 
-    
- <!-- FOOTER -->
+    <!-- FOOTER -->
     <footer>
         <div class="footer-inner">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <a href="#" class="nav-brand" aria-label="BPMS Home">
+                    <a href="index.php" class="nav-brand" aria-label="BPMS Home">
                         <div class="nav-brand-icon"><i class="fas fa-city"></i></div>
                         <div class="nav-brand-text">Barangay<span>PMS</span></div>
                     </a>
@@ -1315,13 +868,13 @@
                     <h5>Contact</h5>
                     <ul>
                         <li><a href="#"><i class="fas fa-map-marker-alt" style="width:16px;"></i> Barangay Hall</a></li>
-                        <li><a href=""><i class="fas fa-envelope" style="width:16px;"></i> chooksterchookie@gmail.com</a></li>
+                        <li><a href="mailto:chooksterchookie@gmail.com"><i class="fas fa-envelope" style="width:16px;"></i> chooksterchookie@gmail.com</a></li>
                         <li><a href="tel:+63288881234"><i class="fas fa-phone" style="width:16px;"></i> (09) 9999-0000</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>&copy; 2026 Barangay Population Monitoring System. All rights reserved.</span>
+                <span>&copy; <?php echo date("Y"); ?> Barangay Population Monitoring System. All rights reserved.</span>
                 <div class="footer-socials">
                     <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
@@ -1336,9 +889,6 @@
     <button class="back-to-top" id="backToTop" aria-label="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
-
-    <!-- TOAST CONTAINER -->
-    <div class="toast-container" id="toastContainer"></div>
 
     <script>
         /* ===== HERO CANVAS — Network Node Animation ===== */
@@ -1365,7 +915,6 @@
                         vx: (Math.random() - 0.5) * 0.6,
                         vy: (Math.random() - 0.5) * 0.6,
                         radius: Math.random() * 2.5 + 1,
-                        /* Mix of teal and gold nodes */
                         color: Math.random() > 0.7 ? 'rgba(212,168,67,' : 'rgba(42,173,130,'
                     });
                 }
@@ -1374,7 +923,6 @@
             function draw() {
                 ctx.clearRect(0, 0, width, height);
 
-                /* Draw connections */
                 for (let i = 0; i < nodes.length; i++) {
                     for (let j = i + 1; j < nodes.length; j++) {
                         const dx = nodes[i].x - nodes[j].x;
@@ -1392,9 +940,7 @@
                     }
                 }
 
-                /* Draw & update nodes */
                 for (const node of nodes) {
-                    /* Mouse interaction */
                     const mdx = node.x - mouse.x;
                     const mdy = node.y - mouse.y;
                     const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
@@ -1404,21 +950,16 @@
                         node.vy += mdy * force;
                     }
 
-                    /* Move */
                     node.x += node.vx;
                     node.y += node.vy;
-
-                    /* Friction */
                     node.vx *= 0.995;
                     node.vy *= 0.995;
 
-                    /* Bounds wrap */
                     if (node.x < -20) node.x = width + 20;
                     if (node.x > width + 20) node.x = -20;
                     if (node.y < -20) node.y = height + 20;
                     if (node.y > height + 20) node.y = -20;
 
-                    /* Draw */
                     ctx.beginPath();
                     ctx.arc(node.x, node.y, Math.max(0.5, node.radius), 0, Math.PI * 2);
                     ctx.fillStyle = node.color + '0.7)';
@@ -1485,7 +1026,6 @@
             }
         });
 
-        /* Close menu on link click */
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 navLinks.classList.remove('open');
@@ -1495,29 +1035,6 @@
                 spans[2].style.transform = 'none';
             });
         });
-
-        /* ===== ACTIVE NAV LINK ON SCROLL ===== */
-        const sections = document.querySelectorAll('section[id]');
-        const navItems = navLinks.querySelectorAll('a[href^="#"]');
-
-        function updateActiveNav() {
-            const scrollY = window.scrollY + 200;
-            sections.forEach(section => {
-                const top = section.offsetTop;
-                const height = section.offsetHeight;
-                const id = section.getAttribute('id');
-                if (scrollY >= top && scrollY < top + height) {
-                    navItems.forEach(item => {
-                        item.classList.remove('active');
-                        if (item.getAttribute('href') === '#' + id) {
-                            item.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }
-
-        window.addEventListener('scroll', updateActiveNav);
 
         /* ===== SCROLL REVEAL ===== */
         const revealElements = document.querySelectorAll('.reveal');
@@ -1530,51 +1047,6 @@
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
         revealElements.forEach(el => revealObserver.observe(el));
-
-        /* ===== COUNTER ANIMATION ===== */
-        const counters = document.querySelectorAll('.counter');
-        let countersAnimated = false;
-
-        const counterObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !countersAnimated) {
-                    countersAnimated = true;
-                    counters.forEach(counter => {
-                        const target = parseInt(counter.getAttribute('data-target'));
-                        const duration = 2000;
-                        const startTime = performance.now();
-
-                        function updateCounter(currentTime) {
-                            const elapsed = currentTime - startTime;
-                            const progress = Math.min(elapsed / duration, 1);
-                            /* Ease out cubic */
-                            const eased = 1 - Math.pow(1 - progress, 3);
-                            const current = Math.round(eased * target);
-                            counter.textContent = current.toLocaleString();
-                            if (progress < 1) {
-                                requestAnimationFrame(updateCounter);
-                            }
-                        }
-                        requestAnimationFrame(updateCounter);
-                    });
-                }
-            });
-        }, { threshold: 0.3 });
-
-        const statsSection = document.getElementById('stats');
-        if (statsSection) counterObserver.observe(statsSection);
-
-        /* ===== TOAST ===== */
-        function showToast(message) {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
-            container.appendChild(toast);
-            setTimeout(() => {
-                if (toast.parentNode) toast.parentNode.removeChild(toast);
-            }, 3200);
-        }
 
         /* ===== SMOOTH SCROLL FOR ANCHOR LINKS ===== */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
