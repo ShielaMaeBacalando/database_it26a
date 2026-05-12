@@ -82,7 +82,7 @@
 <body>
     
    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand ml-2 ml-md-5" href="dashboard.php">Barangay Population Monitoring System</a>
+    <a class="navbar-brand ml-2 ml-md-5" href="dashboard.php">Barangay <span>PMS</span>a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
